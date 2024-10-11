@@ -5,9 +5,7 @@ import { Text } from './src/components/Text/Text';
 const App = () => {
   return (
     <SafeAreaView>
-      <Text preset="headingLarge" style={{ color: 'red' }}>
-        Olá
-      </Text>
+      <Text preset="headingLarge">Olá</Text>
     </SafeAreaView>
   );
 };
