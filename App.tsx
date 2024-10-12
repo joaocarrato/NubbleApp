@@ -1,9 +1,10 @@
-import { SafeAreaView, View } from 'react-native';
-import React from 'react';
-import { Text } from './src/components/Text/Text';
 import { ThemeProvider } from '@shopify/restyle';
-import { theme } from './src/theme/theme';
+import React from 'react';
+import { SafeAreaView, View } from 'react-native';
 import Button from './src/components/Button/Button';
+import { Text } from './src/components/Text/Text';
+import { theme } from './src/theme/theme';
+import { Box } from './src/components/Box/Box';
 
 const App = () => {
   return (
@@ -12,7 +13,10 @@ const App = () => {
         <View style={{ paddingHorizontal: 24 }}>
           <Text preset="headingLarge">Olá</Text>
 
-          <Button title="Entrar" />
+          <Box mb="s8">
+            <Button title="Entrar" />
+          </Box>
+          <Button title="Entrar" loading />
         </View>
       </SafeAreaView>
     </ThemeProvider>
