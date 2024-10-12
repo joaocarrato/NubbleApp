@@ -1,22 +1,27 @@
 import React from 'react';
 import { Text } from '../Text/Text';
-import { Box } from '../Box/Box';
+import { Box, TouchableOpacityBox, TouchableOpacityBoxProps } from '../Box/Box';
 import { ActivityIndicator } from 'react-native';
 
-interface ButtonProps {
+interface ButtonProps extends TouchableOpacityBoxProps {
   title: string;
   loading?: boolean;
 }
 
-const Button = ({ title, loading }: ButtonProps) => {
+const Button = ({
+  title,
+  loading,
+  ...touchableOpacityBoxProps
+}: ButtonProps) => {
   return (
-    <Box
+    <TouchableOpacityBox
       px="s20"
       height={50}
       alignItems="center"
       justifyContent="center"
       borderRadius="s16"
-      backgroundColor="carrotSecondary">
+      backgroundColor="buttonPrimary"
+      {...touchableOpacityBoxProps}>
       {loading ? (
         <ActivityIndicator />
       ) : (
@@ -24,7 +29,7 @@ const Button = ({ title, loading }: ButtonProps) => {
           {title}
         </Text>
       )}
-    </Box>
+    </TouchableOpacityBox>
   );
 };
 
