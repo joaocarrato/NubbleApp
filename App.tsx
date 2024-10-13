@@ -12,7 +12,8 @@ const App = () => {
         <View style={{ paddingHorizontal: 24 }}>
           <Text preset="headingLarge">Olá</Text>
 
-          <Button title="Entrar" mb="s20" />
+          <Button title="Primary" mb="s20" />
+          <Button title="outline" preset="outline" mb="s20" />
 
           <Button title="Entrar" loading />
         </View>
