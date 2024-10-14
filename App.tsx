@@ -1,9 +1,9 @@
 import { ThemeProvider } from '@shopify/restyle';
 import React from 'react';
 import { SafeAreaView, View } from 'react-native';
-import Button from './src/components/Button/Button';
 import { Text } from './src/components/Text/Text';
 import { theme } from './src/theme/theme';
+import { Icon } from './src/components/Icon/Icon';
 
 const App = () => {
   return (
@@ -12,11 +12,7 @@ const App = () => {
         <View style={{ paddingHorizontal: 24 }}>
           <Text preset="headingLarge">Olá</Text>
 
-          <Button title="Primary" mb="s20" />
-          <Button title="outline" preset="outline" mb="s20" />
-          <Button disabled title="outline" mb="s20" />
-
-          <Button title="Entrar" loading />
+          <Icon name="chat" />
         </View>
       </SafeAreaView>
     </ThemeProvider>
