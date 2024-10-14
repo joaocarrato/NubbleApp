@@ -14,6 +14,7 @@ const App = () => {
 
           <Button title="Primary" mb="s20" />
           <Button title="outline" preset="outline" mb="s20" />
+          <Button disabled title="outline" mb="s20" />
 
           <Button title="Entrar" loading />
         </View>
