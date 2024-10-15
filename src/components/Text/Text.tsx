@@ -76,7 +76,7 @@ type TextVariants =
 
 // Usando o utilitário Record, o primeiro argumento é o tipo da chave e o segundo do item é o tipo do valor.
 
-const $fontSize: Record<TextVariants, TextStyle> = {
+export const $fontSize: Record<TextVariants, TextStyle> = {
   headingLarge: { fontSize: 32, lineHeight: 38.4 },
   headingMedium: { fontSize: 22, lineHeight: 26.4 },
   headingSmall: { fontSize: 18, lineHeight: 23.4 },
@@ -87,7 +87,7 @@ const $fontSize: Record<TextVariants, TextStyle> = {
   paragraphCaptionSmall: { fontSize: 10, lineHeight: 14 },
 };
 
-const $fontFamily = {
+export const $fontFamily = {
   black: 'Satoshi-Black',
   blackItalic: 'Satoshi-BlackItalic',
   bold: 'Satoshi-Bold',
