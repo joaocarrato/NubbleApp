@@ -4,6 +4,7 @@ import { Text } from '../../../components/Text/Text';
 import { TextInput } from '../../../components/TextInput/TextInput';
 import { Icon } from '../../../components/Icon/Icon';
 import Button from '../../../components/Button/Button';
+import { InputPassword } from '../../../components/InputPassword/InputPassword';
 
 export function SignUpScreen() {
   function submitForm() {
@@ -34,28 +35,9 @@ export function SignUpScreen() {
         boxProps={{ mb: 's16' }}
       />
 
-      <TextInput
-        label="E-mail"
-        placeholder="Digite seu e-mail"
-        boxProps={{ mb: 's16' }}
-      />
-
-      <TextInput
-        label="E-mail"
-        placeholder="Digite seu e-mail"
-        boxProps={{ mb: 's16' }}
-      />
-
-      <TextInput
-        label="E-mail"
-        placeholder="Digite seu e-mail"
-        boxProps={{ mb: 's16' }}
-      />
-
-      <TextInput
+      <InputPassword
         label="Senha"
         placeholder="Digite sua senha"
-        rightComponent={<Icon name="eyeOn" color="gray2" />}
         boxProps={{ mb: 's48' }}
       />
 

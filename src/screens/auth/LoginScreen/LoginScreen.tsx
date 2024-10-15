@@ -4,6 +4,7 @@ import { Text } from '../../../components/Text/Text';
 import { TextInput } from '../../../components/TextInput/TextInput';
 import Button from '../../../components/Button/Button';
 import { Screen } from '../../../components/Screen/Screen';
+import { InputPassword } from '../../../components/InputPassword/InputPassword';
 
 export function LoginScreen() {
   return (
@@ -23,7 +24,7 @@ export function LoginScreen() {
         boxProps={{ mb: 's20' }}
       />
 
-      <TextInput
+      <InputPassword
         label="Senha"
         placeholder="Digite sua senha"
         boxProps={{ mb: 's10' }}
