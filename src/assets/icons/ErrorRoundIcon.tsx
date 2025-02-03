@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Svg, { Circle, Path } from 'react-native-svg';
+import Svg, {Circle, Path} from 'react-native-svg';
 
-import { IconBase } from '../../components/Icon/Icon';
-import { palette } from '../../theme/theme';
+import {IconBase} from '../../components/Icon/Icon';
+import {palette} from '../../theme/theme';
 export function ErrorRoundIcon({
   size = 48,
   color = palette.redError,
@@ -14,8 +14,8 @@ export function ErrorRoundIcon({
       <Path
         d="M15 15.0004L31.2279 31.9996M15.7728 32L32 15"
         stroke="white"
-        stroke-width="3"
-        stroke-linecap="round"
+        strokeWidth="3"
+        strokeLinecap="round"
       />
     </Svg>
   );
