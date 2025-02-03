@@ -1,7 +1,7 @@
 import React from 'react';
 import {Dimensions} from 'react-native';
 
-import {Toast, ToastType, ToastPosition} from '@services';
+import {Toast, ToastType} from '@services';
 
 import {$shadowProps} from '@theme';
 
@@ -16,11 +16,10 @@ interface Props {
 }
 
 export function ToastContent({toast}: Props) {
-  const position: ToastPosition = toast?.position || 'top';
   const type: ToastType = toast.type || 'success';
 
   return (
-    <Box {...$toastStyle} style={[{[position]: 100}, {...$shadowProps}]}>
+    <Box {...$toastStyle} style={{...$shadowProps}}>
       <Icon {...mapTypeToIcon[type]} />
       <Text style={{flexShrink: 1}} ml="s16" preset="paragraphMedium" bold>
         {toast.message}
