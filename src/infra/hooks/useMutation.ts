@@ -25,6 +25,11 @@ export interface MutationOptions<TData> {
  * @template TData Tipo dos dados.
  */
 
+/**
+ *
+ * @deprecated use useMutation from `@tanstack/react-query`
+ */
+
 export function useMutation<TVariables, TData>(
   mutationFn: (variables: TVariables) => Promise<TData>,
   options?: MutationOptions<TData>,

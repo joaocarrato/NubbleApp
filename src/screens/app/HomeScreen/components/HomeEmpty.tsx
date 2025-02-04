@@ -1,15 +1,17 @@
 import React from 'react';
 
-import { ActivityIndicator, Box, Button, Text } from '@components';
+import {ActivityIndicator, Box, Button, Text} from '@components';
 
 interface Props {
   loading: boolean;
   error: unknown;
   refetch: () => void;
 }
-export function HomeEmpty({ loading, error, refetch }: Props) {
+export function HomeEmpty({loading, error, refetch}: Props) {
   let component = (
-    <Text preset="paragraphMedium">Não há publicações no seu feed</Text>
+    <Text bold preset="paragraphMedium">
+      Não há publicações no seu feed
+    </Text>
   );
 
   if (loading) {
@@ -19,10 +21,10 @@ export function HomeEmpty({ loading, error, refetch }: Props) {
   if (error) {
     component = (
       <>
-        <Text preset="paragraphMedium" bold mb="s16">
+        <Text bold preset="paragraphMedium" mb="s16">
           Não foi possível carregar o feed 😢
         </Text>
-        <Button title="Recarregar" preset="outline" onPress={refetch} />
+        <Button title="recarregar" preset="outline" onPress={refetch} />
       </>
     );
   }

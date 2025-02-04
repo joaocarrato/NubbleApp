@@ -7,5 +7,8 @@ export function usePostCommentList(postId: number) {
   function getList(page: number) {
     return postCommentService.getList(postId, page);
   }
-  return usePaginatedList<PostComment>([QueryKeys.PostCommentList], getList);
+  return usePaginatedList<PostComment>(
+    [QueryKeys.PostCommentList, postId],
+    getList,
+  );
 }

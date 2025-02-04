@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import {
   FlatList,
   ListRenderItemInfo,
@@ -13,10 +13,10 @@ import {useScrollToTop} from '@react-navigation/native';
 import {PostItem, Screen} from '@components';
 import {AppTabScreenProps} from '@routes';
 
-import {HomeEmpty, HomeHeader} from './components';
+import {HomeEmpty} from './components/HomeEmpty';
+import {HomeHeader} from './components/HomeHeader';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function HomeScreen({navigation}: AppTabScreenProps<'HomeScreen'>) {
+export function HomeScreen({}: AppTabScreenProps<'HomeScreen'>) {
   const {
     list: postList,
     isError,
@@ -25,7 +25,7 @@ export function HomeScreen({navigation}: AppTabScreenProps<'HomeScreen'>) {
     fetchNextPage,
   } = usePostList();
 
-  const flatListRef = useRef<FlatList<Post>>(null);
+  const flatListRef = React.useRef<FlatList<Post>>(null);
   useScrollToTop(flatListRef);
 
   function renderItem({item}: ListRenderItemInfo<Post>) {
@@ -39,17 +39,17 @@ export function HomeScreen({navigation}: AppTabScreenProps<'HomeScreen'>) {
         showsVerticalScrollIndicator={false}
         data={postList}
         keyExtractor={item => item.id.toString()}
+        renderItem={renderItem}
         onEndReached={fetchNextPage}
         onEndReachedThreshold={0.1}
+        refreshing={isLoading}
         refreshControl={
           <RefreshControl refreshing={isLoading} onRefresh={refresh} />
         }
-        refreshing={isLoading}
-        renderItem={renderItem}
         contentContainerStyle={{flex: postList.length === 0 ? 1 : undefined}}
         ListHeaderComponent={<HomeHeader />}
         ListEmptyComponent={
-          <HomeEmpty error={isError} loading={isLoading} refetch={refresh} />
+          <HomeEmpty refetch={refresh} error={isError} loading={isLoading} />
         }
       />
     </Screen>
