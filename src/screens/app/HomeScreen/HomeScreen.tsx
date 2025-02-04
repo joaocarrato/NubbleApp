@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, {useRef} from 'react';
 import {
   FlatList,
   ListRenderItemInfo,
@@ -7,20 +7,20 @@ import {
   ViewStyle,
 } from 'react-native';
 
-import { Post, usePostList } from '@domain';
-import { useScrollToTop } from '@react-navigation/native';
+import {Post, usePostList} from '@domain';
+import {useScrollToTop} from '@react-navigation/native';
 
-import { PostItem, Screen } from '@components';
-import { AppTabScreenProps } from '@routes';
+import {PostItem, Screen} from '@components';
+import {AppTabScreenProps} from '@routes';
 
-import { HomeEmpty, HomeHeader } from './components';
+import {HomeEmpty, HomeHeader} from './components';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function HomeScreen({ navigation }: AppTabScreenProps<'HomeScreen'>) {
+export function HomeScreen({navigation}: AppTabScreenProps<'HomeScreen'>) {
   const {
     list: postList,
-    error,
-    loading,
+    isError,
+    isLoading,
     refresh,
     fetchNextPage,
   } = usePostList();
@@ -28,7 +28,7 @@ export function HomeScreen({ navigation }: AppTabScreenProps<'HomeScreen'>) {
   const flatListRef = useRef<FlatList<Post>>(null);
   useScrollToTop(flatListRef);
 
-  function renderItem({ item }: ListRenderItemInfo<Post>) {
+  function renderItem({item}: ListRenderItemInfo<Post>) {
     return <PostItem post={item} />;
   }
 
@@ -42,14 +42,14 @@ export function HomeScreen({ navigation }: AppTabScreenProps<'HomeScreen'>) {
         onEndReached={fetchNextPage}
         onEndReachedThreshold={0.1}
         refreshControl={
-          <RefreshControl refreshing={loading} onRefresh={refresh} />
+          <RefreshControl refreshing={isLoading} onRefresh={refresh} />
         }
-        refreshing={loading}
+        refreshing={isLoading}
         renderItem={renderItem}
-        contentContainerStyle={{ flex: postList.length === 0 ? 1 : undefined }}
+        contentContainerStyle={{flex: postList.length === 0 ? 1 : undefined}}
         ListHeaderComponent={<HomeHeader />}
         ListEmptyComponent={
-          <HomeEmpty error={error} loading={loading} refetch={refresh} />
+          <HomeEmpty error={isError} loading={isLoading} refetch={refresh} />
         }
       />
     </Screen>
