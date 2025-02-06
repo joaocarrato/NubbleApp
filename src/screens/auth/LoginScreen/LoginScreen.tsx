@@ -1,8 +1,9 @@
 import React from 'react';
-import { Alert } from 'react-native';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import {useAuthSignIn} from '@domain';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {useToastService} from '@services';
+import {useForm} from 'react-hook-form';
 
 import {
   Text,
@@ -11,12 +12,16 @@ import {
   FormTextInput,
   FormPasswordTextInput,
 } from '@components';
-import { AuthScreenProps } from '@routes';
+import {AuthScreenProps} from '@routes';
 
-import { loginSchema, LoginSchema } from './loginSchema';
+import {loginSchema, LoginSchema} from './loginSchema';
 
-export function LoginScreen({ navigation }: AuthScreenProps<'LoginScreen'>) {
-  const { control, formState, handleSubmit } = useForm<LoginSchema>({
+export function LoginScreen({navigation}: AuthScreenProps<'LoginScreen'>) {
+  const {showToast} = useToastService();
+  const {signIn, isLoading} = useAuthSignIn({
+    onError: message => showToast({message, type: 'error'}),
+  });
+  const {control, formState, handleSubmit} = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: '',
@@ -25,8 +30,9 @@ export function LoginScreen({ navigation }: AuthScreenProps<'LoginScreen'>) {
     mode: 'onChange',
   });
 
-  function onSubmit({ email, password }: LoginSchema) {
-    Alert.alert(`E-mail: ${email} password:${password}`);
+  function onSubmit({email, password}: LoginSchema) {
+    // Alert.alert(`E-mail: ${email} password:${password}`);
+    signIn({email, password});
   }
 
   function navigateToSignUpScreen() {
@@ -51,7 +57,7 @@ export function LoginScreen({ navigation }: AuthScreenProps<'LoginScreen'>) {
         name="email"
         label="E-mail"
         placeholder="Digite seu e-mail"
-        boxProps={{ mb: 's20' }}
+        boxProps={{mb: 's20'}}
       />
 
       <FormPasswordTextInput
@@ -59,7 +65,7 @@ export function LoginScreen({ navigation }: AuthScreenProps<'LoginScreen'>) {
         name="password"
         label="Senha"
         placeholder="Digite sua senha"
-        boxProps={{ mb: 's10' }}
+        boxProps={{mb: 's10'}}
       />
 
       <Text
@@ -73,6 +79,7 @@ export function LoginScreen({ navigation }: AuthScreenProps<'LoginScreen'>) {
       <Button
         mt="s48"
         title="Entrar"
+        loading={isLoading}
         onPress={handleSubmit(onSubmit)}
         disabled={!formState.isValid}
       />
