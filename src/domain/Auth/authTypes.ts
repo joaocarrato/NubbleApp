@@ -4,6 +4,12 @@ export interface AuthCredentials {
   token: string;
   user: User;
 }
+
+export interface FieldIsAvailableAPI {
+  message: string;
+  isAvailable: boolean;
+}
+
 export interface AuthCredentialsAPI {
   auth: {
     type: string; //'bearer';

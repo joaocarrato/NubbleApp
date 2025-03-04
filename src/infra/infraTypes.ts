@@ -4,4 +4,5 @@ export enum QueryKeys {
   UserGetById = 'UserGetById',
   AuthSignIn = 'AuthSignIn',
   AuthSignOut = 'AuthSignOut',
+  IsUserNameAvailable = 'IsUserNameAvailable',
 }

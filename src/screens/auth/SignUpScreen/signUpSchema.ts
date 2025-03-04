@@ -4,6 +4,7 @@ import {z} from 'zod';
 export const signUpSchema = z.object({
   username: z
     .string()
+    .min(5, 'username muito curto')
     .regex(/^[a-zA-Z0-9_]{3,30}$/, 'Username inválido')
     .toLowerCase(),
   firstName: z
