@@ -3,7 +3,11 @@ if (__DEV__) {
 }
 import React from 'react';
 
-import {AuthCredentialsProvider} from '@services';
+import {
+  AuthCredentialsProvider,
+  initializeStorage,
+  MMKVStorage,
+} from '@services';
 import {ThemeProvider} from '@shopify/restyle';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -13,6 +17,7 @@ import {Router} from '@routes';
 import {theme} from '@theme';
 
 const queryClient = new QueryClient();
+initializeStorage(MMKVStorage);
 
 function App(): React.JSX.Element {
   return (
