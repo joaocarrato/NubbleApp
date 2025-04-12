@@ -1,21 +1,22 @@
-import { z } from 'zod';
+import {stringUtils} from '@utils';
+import {z} from 'zod';
 
 export const signUpSchema = z.object({
   username: z
     .string()
+    .min(5, 'username muito curto')
     .regex(/^[a-zA-Z0-9_]{3,30}$/, 'Username inválido')
     .toLowerCase(),
-  fullName: z
+  firstName: z
     .string()
     .min(3, 'Nome muito curto')
     .max(50, 'Nome muito longo')
-    .transform(value => {
-      return value
-        .split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-        .join(' ');
-    }),
-
+    .transform(stringUtils.capitalizeFirstLetter),
+  lastName: z
+    .string()
+    .min(3, 'Nome muito curto')
+    .max(50, 'Nome muito longo')
+    .transform(stringUtils.capitalizeFirstLetter),
   email: z.string().email('E-mail inválido'),
   password: z.string().min(8, 'Mínimo 8 caracteres'),
 });

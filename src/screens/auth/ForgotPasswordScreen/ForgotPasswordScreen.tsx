@@ -1,22 +1,42 @@
 import React from 'react';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import {useAuthRequestNewPassword} from '@domain';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {useToastService} from '@services';
+import {useForm} from 'react-hook-form';
 
-import { Screen, Text, Button, FormTextInput } from '@components';
-import { useResetNavigationSuccess } from '@hooks';
-import { AuthScreenProps } from '@routes';
+import {Screen, Text, Button, FormTextInput} from '@components';
+import {useResetNavigationSuccess} from '@hooks';
+import {AuthScreenProps, AuthStackParamList} from '@routes';
 
 import {
   forgotPasswordSchema,
   ForgotPasswordSchema,
 } from './forgotPasswordSchema';
 
+const resetParam: AuthStackParamList['SuccessScreen'] = {
+  title: `Enviamos as instruções${'\n'}para seu e-mail`,
+  description: 'Clique no link enviado no seu e-mail para recuperar sua senha',
+  icon: {
+    name: 'messageRound',
+    color: 'primary',
+  },
+};
+
 export function ForgotPasswordScreen({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   navigation,
 }: AuthScreenProps<'ForgotPasswordScreen'>) {
-  const { control, handleSubmit, formState } = useForm<ForgotPasswordSchema>({
+  const {reset} = useResetNavigationSuccess();
+
+  const {showToast} = useToastService();
+
+  const {requestNewPassword, isLoading} = useAuthRequestNewPassword({
+    onSuccess: () => reset(resetParam),
+    onError: message => showToast({message, type: 'error'}),
+  });
+
+  const {control, handleSubmit, formState} = useForm<ForgotPasswordSchema>({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
       email: '',
@@ -24,18 +44,8 @@ export function ForgotPasswordScreen({
     mode: 'onChange',
   });
 
-  const { reset } = useResetNavigationSuccess();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   function onSubmit(props: ForgotPasswordSchema) {
-    reset({
-      title: `Enviamos as instruções${'\n'}para seu e-mail`,
-      description:
-        'Clique no link enviado no seu e-mail para recuperar sua senha',
-      icon: {
-        name: 'messageRound',
-        color: 'primary',
-      },
-    });
+    requestNewPassword(props.email);
   }
 
   return (
@@ -52,10 +62,11 @@ export function ForgotPasswordScreen({
         name="email"
         label="E-mail"
         placeholder="Digite seu e-mail"
-        boxProps={{ mb: 's40' }}
+        boxProps={{mb: 's40'}}
       />
 
       <Button
+        loading={isLoading}
         title="Recuperar senha"
         disabled={!formState.isValid}
         onPress={handleSubmit(onSubmit)}

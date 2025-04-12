@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import {useAuthSignUp} from '@domain';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {useForm} from 'react-hook-form';
 
 import {
   Button,
@@ -9,39 +10,51 @@ import {
   Text,
   FormTextInput,
   FormPasswordTextInput,
+  ActivityIndicator,
 } from '@components';
-import { useResetNavigationSuccess } from '@hooks';
-import { AuthScreenProps } from '@routes';
+import {useResetNavigationSuccess} from '@hooks';
+import {AuthScreenProps, AuthStackParamList} from '@routes';
 
-import { signUpSchema, SignUpSchema } from './signUpSchema';
+import {signUpSchema, SignUpSchema} from './signUpSchema';
+import {useAsyncValidation} from './useAsyncValidation';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function SignUpScreen({ navigation }: AuthScreenProps<'SignUpScreen'>) {
-  const { reset } = useResetNavigationSuccess();
-  const { control, handleSubmit, formState } = useForm<SignUpSchema>({
-    resolver: zodResolver(signUpSchema),
-    defaultValues: {
-      username: '',
-      fullName: '',
-      email: '',
-      password: '',
-    },
-    mode: 'onChange',
+const defaultValues: SignUpSchema = {
+  username: '',
+  firstName: '',
+  lastName: '',
+  email: '',
+  password: '',
+};
+
+const resetParam: AuthStackParamList['SuccessScreen'] = {
+  title: 'Sua conta foi criada com sucesso',
+  description: 'Agora é só fazer login na nossa plataforma',
+  icon: {
+    name: 'checkRound',
+    color: 'success',
+  },
+};
+
+export function SignUpScreen({}: AuthScreenProps<'SignUpScreen'>) {
+  const {signUp, isLoading} = useAuthSignUp({
+    onSuccess: () => reset(resetParam),
   });
+  const {reset} = useResetNavigationSuccess();
+  const {control, handleSubmit, formState, watch, getFieldState} =
+    useForm<SignUpSchema>({
+      resolver: zodResolver(signUpSchema),
+      defaultValues,
+      mode: 'onChange',
+    });
 
   function onSubmit(data: SignUpSchema) {
-    console.log(
-      `username: ${data.username}, fullname: ${data.fullName}, email: ${data.email}, password: ${data.password}`,
-    );
-    reset({
-      title: 'Sua conta foi criada com sucesso',
-      description: 'Agora é só fazer login na nossa plataforma',
-      icon: {
-        name: 'checkRound',
-        color: 'success',
-      },
-    });
+    signUp(data);
   }
+
+  const {usernameValidation, emailValidation} = useAsyncValidation({
+    watch,
+    getFieldState,
+  });
 
   return (
     <Screen canGoBack scrollable>
@@ -54,25 +67,46 @@ export function SignUpScreen({ navigation }: AuthScreenProps<'SignUpScreen'>) {
         name="username"
         label="Seu username"
         placeholder="@"
-        boxProps={{ mb: 's16' }}
+        errorMessage={usernameValidation.errorMessage}
+        rightComponent={
+          usernameValidation.isFetching ? (
+            <ActivityIndicator size={'small'} />
+          ) : undefined
+        }
+        boxProps={{mb: 's16'}}
       />
 
       <FormTextInput
         control={control}
-        name="fullName"
+        name="firstName"
         autoCapitalize="words"
-        label="Nome completo"
-        placeholder="Digite seu nome completo"
-        boxProps={{ mb: 's16' }}
+        label="Nome"
+        placeholder="Digite seu nome"
+        boxProps={{mb: 's16'}}
+      />
+
+      <FormTextInput
+        control={control}
+        name="lastName"
+        autoCapitalize="words"
+        label="Sobrenome"
+        placeholder="Digite seu sobrenome"
+        boxProps={{mb: 's16'}}
       />
 
       <FormTextInput
         control={control}
         name="email"
         label="E-mail"
+        errorMessage={emailValidation.errorMessage}
+        rightComponent={
+          emailValidation.isFetching ? (
+            <ActivityIndicator size={'small'} />
+          ) : undefined
+        }
         placeholder="Digite seu e-mail"
         autoCapitalize="none"
-        boxProps={{ mb: 's16' }}
+        boxProps={{mb: 's16'}}
       />
 
       <FormPasswordTextInput
@@ -80,13 +114,18 @@ export function SignUpScreen({ navigation }: AuthScreenProps<'SignUpScreen'>) {
         name="password"
         label="Senha"
         placeholder="Digite sua senha"
-        boxProps={{ mb: 's48' }}
+        boxProps={{mb: 's48'}}
       />
 
       <Button
+        loading={isLoading}
         title="Criar minha conta"
         onPress={handleSubmit(onSubmit)}
-        disabled={!formState.isValid}
+        disabled={
+          !formState.isValid ||
+          usernameValidation.notReady ||
+          emailValidation.notReady
+        }
       />
     </Screen>
   );
