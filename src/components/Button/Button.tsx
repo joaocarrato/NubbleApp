@@ -7,7 +7,7 @@ import {
   ActivityIndicator,
 } from '@components';
 
-import { buttonPresets } from './buttonPresets';
+import {buttonPresets} from './buttonPresets';
 
 export type ButtonPresets = 'primary' | 'outline';
 
@@ -28,6 +28,7 @@ export function Button({
   const buttonPreset = buttonPresets[preset][disabled ? 'disabled' : 'default'];
   return (
     <TouchableOpacityBox
+      testID="button"
       disabled={disabled || loading}
       {...$buttonStyle}
       {...buttonPreset.container}

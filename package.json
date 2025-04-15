@@ -43,6 +43,8 @@
     "@react-native/metro-config": "0.76.5",
     "@react-native/typescript-config": "0.76.5",
     "@tanstack/eslint-plugin-query": "4",
+    "@testing-library/react-native": "^13.2.0",
+    "@types/jest": "^29.5.14",
     "@types/react": "^18.2.6",
     "@types/react-test-renderer": "^18.0.0",
     "babel-jest": "^29.6.3",
@@ -55,6 +57,20 @@
     "react-test-renderer": "18.3.1",
     "reactotron-react-native": "^5.1.12",
     "typescript": "5.0.4"
+  },
+  "jest": {
+    "preset": "react-native",
+    "moduleDirectories": [
+      "node_modules",
+      "./src/test"
+    ],
+    "collectCoverageFrom": [
+      "src/{components,utils}/**/*.{js,jsx,ts,tsx}"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "index"
+    ]
   },
   "engines": {
     "node": ">=18"
